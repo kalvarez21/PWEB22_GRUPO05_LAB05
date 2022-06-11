@@ -79,7 +79,7 @@
     django-admin.exe startproject mysite .
    ```
 
-   - Se modifica ciertas configuracion preestablecidas de mysite/settings.py , tales como fecha, ruta de archivos estaticos, base de datos, etc;
+   - Se modifica ciertas configuraciones preestablecidas de mysite/settings.py , tales como fecha, ruta de archivos estaticos, base de datos, etc;
    ```sh
     ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
     ...
@@ -130,6 +130,72 @@
         Applying auth.0012_alter_user_first_name_max_length... OK
         Applying sessions.0001_initial... OK
    ```
+
+   <h3> CREACION DE MODELOS</h3>
+
+   - Creamos una aplicacion (se creara una carpeta llamada blog en el directorio principal):
+   ```sh
+    python manage.py startapp blog
+   ```
+
+   - Luego añadimos la aplicacion al proyecto modificando en mysite/setting.py:
+   ```sh
+   INSTALLED_APPS = [
+       'django.contrib.admin',
+       'django.contrib.auth',
+       'django.contrib.contenttypes',
+       'django.contrib.sessions',
+       'django.contrib.messages',
+       'django.contrib.staticfiles',
+       'blog.apps.BlogConfig', # linea agregada
+    ]
+   ```
+
+   - Se crea el modelo POST, para ello en blog/models.py se borra y añade lo siguiente:
+   ```sh
+    from django.conf import settings
+    from django.db import models
+    from django.utils import timezone
+
+
+    class Post(models.Model):
+        author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+        title = models.CharField(max_length=200)
+        text = models.TextField()
+        created_date = models.DateTimeField(
+                default=timezone.now)
+        published_date = models.DateTimeField(
+                blank=True, null=True)
+
+        def publish(self):
+            self.published_date = timezone.now()
+            self.save()
+
+        def __str__(self):
+            return self.title
+   ```
+
+   - Una vez creado el modelo se tiene que crear el archivo de migracion ya que se modifico el antiguo modelo (ejecutar este codigo en el directorio principal):
+   ```sh
+     python manage.py makemigrations blog
+   ```
+   ```sh
+     Migrations for 'blog':
+       blog\migrations\0001_initial.py
+         - Create model Post
+   ```
+
+   - Por ultimo se aplica a nuestro base de datos
+   ```sh
+     python manage.py migrate blog
+   ```
+   ```sh
+   Operations to perform:
+      Apply all migrations: blog
+   Running migrations:
+      Applying blog.0001_initial... OK
+   ```
+
 
 
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
