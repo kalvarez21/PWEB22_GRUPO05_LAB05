@@ -49,6 +49,87 @@
    <h2>I. SOLUCION DE EJERCICIOS/PROBLEMAS</h2>
 
    - Creacion del Blog - Paso a Paso:
+   - Se inicia creando un entorno virtual:
+   ```sh
+    python -m venv myvenv
+   ```
+
+   - Inicializamos el entorno:
+   ```sh
+    myvenv/Scripts/activate.bat
+   ```
+
+   - Se crea un archivo requiremets.txt con cuyo contenido sera:
+   ```sh
+    Django~=3.2.10
+   ```
+
+   - Se procede a instalar Django:
+   ```sh
+    pip install -r requirements.txt
+   ```
+
+   - OPCIONAL: Si se desea actualizar pip se puede usar:
+   ```sh
+    python -m pip install --upgrade pip
+   ```
+
+   - Se crea la plantilla que utiliza django para sus proyectos:
+   ```sh
+    django-admin.exe startproject mysite .
+   ```
+
+   - Se modifica ciertas configuracion preestablecidas de mysite/settings.py , tales como fecha, ruta de archivos estaticos, base de datos, etc;
+   ```sh
+    ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+    ...
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+    ...
+    LANGUAGE_CODE = 'es-es'
+    TIME_ZONE = 'America/Lima'
+    ...
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    ...
+    MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+   ```
+
+   - En caso de presentarse error se recomienda añadir la siguiente linea al inicio del archivo settings.py:
+   ```sh
+    import os
+   ```
+
+   - Para crear una base de datos para nuestro blog, ejecutemos lo siguiente en la consola (necesitamos estar en el directorio principal que contiene el archivo manage.py):
+   ```sh
+    python manage.py migrate
+   ```
+   ```sh
+     Operations to perform:
+        Apply all migrations: admin, auth, contenttypes, sessions
+     Running migrations:
+        Applying contenttypes.0001_initial... OK
+        Applying auth.0001_initial... OK
+        Applying admin.0001_initial... OK
+        Applying admin.0002_logentry_remove_auto_add... OK
+        Applying admin.0003_logentry_add_action_flag_choices... OK
+        Applying contenttypes.0002_remove_content_type_name... OK
+        Applying auth.0002_alter_permission_name_max_length... OK
+        Applying auth.0003_alter_user_email_max_length... OK
+        Applying auth.0004_alter_user_username_opts... OK
+        Applying auth.0005_alter_user_last_login_null... OK
+        Applying auth.0006_require_contenttypes_0002... OK
+        Applying auth.0007_alter_validators_add_error_messages... OK
+        Applying auth.0008_alter_user_username_max_length... OK
+        Applying auth.0009_alter_user_last_name_max_length... OK
+        Applying auth.0010_alter_group_name_max_length... OK
+        Applying auth.0011_update_proxy_permissions... OK
+        Applying auth.0012_alter_user_first_name_max_length... OK
+        Applying sessions.0001_initial... OK
+   ```
 
 
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
