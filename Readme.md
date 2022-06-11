@@ -230,6 +230,41 @@
       - Ventana de las funciones implementadas a post (agregar, editar):
    <img src="https://i.ibb.co/Sn1D0By/image.png">
 
+   <h3> USANDO pythonanywhere</h3>
+
+   - Primero tenemos que subir los archivos a un repositorio git tomando en cuenta el archivo .gitignore con el siguiente contenido:
+   ```sh
+    *.pyc
+    *~
+    __pycache__
+    myvenv
+    db.sqlite3
+    /static
+    .DS_Store
+   ```
+
+   - Luego tendremos que crear una cuenta en www.pythonanywhere.com para poder acceder a su bash(terminal). Para poder subir una aplicacion web se puede configurar de forma automatica escribiendo en el bash se pythonanywhere:
+   ```sh
+      pip3.6 install --user pythonanywhere
+   ```
+   ```sh
+    ...
+    Successfully built pythonanywhere
+    Installing collected packages: contextlib2, typer, tabulate, schema, pythonanywhere
+    Successfully installed contextlib2-21.6.0 pythonanywhere-0.10.2 schema-0.7.5 tabulate-0.8.9 typer-0.4.1
+   ```
+
+   - Ahora agregaremos la aplicacion que se estuvo trabajando en GitHub (bash pythonanywhere):
+   ```sh
+      pa_autoconfigure_django.py --python=3.6 https://github.com/kalvarez21/PWEB22_GRUPO05_LAB05.git
+   ```
+
+   - Despues de subir la aplicacion por completa se necesitara crear otra vez el superusuario ya que la base de datos no es la misma que la local (bash pythonanywhere).
+   ```sh
+      python manage.py createsuperuser
+   ```
+
+
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
 
    - ¿Cuál es un estándar de codificación para Python? Ejemplo: Para PHP en el proyecto Pear https://pear.php.net/manual/en/standards.php
