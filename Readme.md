@@ -196,7 +196,39 @@
       Applying blog.0001_initial... OK
    ```
 
+   <h3> ADMINISTRADOR DE DJANGO</h3>
 
+   - Las funciones de agregar, editar y borrar posts se realizara por medio del administrador de DJango, para ello modificamos todo el contenido en blog/admin.py :
+   ```sh
+    from django.contrib import admin
+    from .models import Post
+
+    admin.site.register(Post)
+   ```
+
+   - Luego procedemos a crear un superusuario
+   ```sh
+     python manage.py createsuperuser
+   ```
+   ```sh
+   Nombre de usuario (leave blank to use 'usuario'): kalvarez21
+   Dirección de correo electrónico: kalvarez@unsa.edu.pe
+   Password:
+   Password (again):
+   Superuser created successfully.
+   ```
+
+   - Una vez creado activamos el server y nos dirigimos a la direccion: http://127.0.0.1:8000/admin/
+   ```sh
+     python manage.py runserver
+   ```
+   - Dentro del link se podra visualizar:
+      - Ventana de Login:
+   <img src="https://i.ibb.co/yNJ0LSZ/image.png">
+      - Ventana de Administracion de post y usuarios:
+   <img src="https://i.ibb.co/C12cCxw/image.png">
+      - Ventana de las funciones implementadas a post (agregar, editar):
+   <img src="https://i.ibb.co/Sn1D0By/image.png">
 
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
 
