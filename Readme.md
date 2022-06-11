@@ -264,6 +264,39 @@
       python manage.py createsuperuser
    ```
 
+   - Ahora la pagina antes creada estara en internet, la URL tendra la forma http://(UsuarioDeTuCuenta).pythonanywhere.com/, ejm: http://kalvarez.pythonanywhere.com/ . Ademas si se desea activar a la ventana de logueo solo basta agregar al link la palabra admin.
+
+   <h3> URLs en Django</h3>
+
+   - Ahora empezaremos a redireccionar a la pagina que queremos que se muestre cuando se ingrese a http://127.0.0.1:8000/, para ello configuraremos en mysite/urls.py el contenido:
+   ```sh
+        from django.contrib import admin
+        from django.urls import path, include
+
+        urlpatterns = [
+           path('admin/', admin.site.urls),
+           path('', include('blog.urls')),
+        ]
+   ```
+
+   - La linea 6 permitira que al ingresar al http://127.0.0.1:8000/ se rediriga a blog.urls y busque más instrucciones. Es por ello que tendremos que crear un archivo urls.py en la carpeta blog que contendra:
+   ```sh
+        from django.urls import path
+        from . import views
+
+        urlpatterns = [
+            path('', views.post_list, name='post_list'),
+        ]
+   ```
+
+   - NOTA: luego de seguir todo lo anterior ocurrira que al ingresar a http://127.0.0.1:8000/ nos salga error y si observamos en el cmd nos muestre una serie de mensajes, esto debido a que aun no hemos creado la pagina web sino que solo hemos redireccionado el link. Asi que solo para estar seguros que todo se siguio correctamente por lo menos el ultimo de mensaje de error deberia ser:
+   ```sh
+        AttributeError: module 'blog.views' has no attribute 'post_list'
+   ```
+   
+
+
+
 
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
 
