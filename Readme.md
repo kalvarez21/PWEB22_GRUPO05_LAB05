@@ -308,6 +308,47 @@
    - Esto nos mostrara:
    <img src="https://i.ibb.co/YRG9TFd/image.png">
 
+   <h3>Pagina HTML</h3>
+
+   - Para evitar los errores obtenidos crearemos la pagina web que se mostrara. Es asi que tendremos que crear un archivo post_list.html dentro del siguiente arbol de directorios:
+   ```sh
+       blog
+       └───templates
+           └───blog
+               └───post_list.html
+   ```
+
+   - En caso de querer probar el link http://127.0.0.1:8000/ ahora solo nos mostrara una pagina web en blanco. Es por ello que agregaremos los siguiente en post_list.html:
+   ```sh
+     <html>
+         <head>
+             <title>Blog Personal</title>
+         </head>
+         <body>
+             <div>
+                 <h1><a href="/">Blog Personal</a></h1>
+             </div>
+
+             <div>
+                 <p>published: 11.06.2022, 14:45</p>
+                 <h2><a href="">My first post</a></h2>
+                 <p>Buenos dias PWEB 02</p>
+             </div>
+
+             <div>
+                 <p>published: 11.06.2022, 14:45</p>
+                 <h2><a href="">My second post</a></h2>
+                 <p>Aprendiendo Django ------- Kalvarez</p>
+             </div>
+         </body>
+     </html>
+   ```
+   - Mostrandose los siguiente:
+   <img src="https://i.ibb.co/8NrpZqP/image.png">
+
+
+
+
 
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
 
