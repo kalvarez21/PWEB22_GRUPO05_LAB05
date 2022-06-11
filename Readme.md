@@ -289,13 +289,24 @@
         ]
    ```
 
-   - NOTA: luego de seguir todo lo anterior ocurrira que al ingresar a http://127.0.0.1:8000/ nos salga error y si observamos en el cmd nos muestre una serie de mensajes, esto debido a que aun no hemos creado la pagina web sino que solo hemos redireccionado el link. Asi que solo para estar seguros que todo se siguio correctamente por lo menos el ultimo de mensaje de error deberia ser:
+   - NOTA: luego de seguir todo lo anterior ocurrira que al ingresar a http://127.0.0.1:8000/ nos salga error y si observamos en el cmd nos muestre una serie de mensajes, esto debido a que aun no hemos creado la pagina web sino que solo hemos redireccionado el link. Asi que solo para estar seguros de que todo se siguio correctamente por lo menos el ultimo de mensaje de error deberia ser:
    ```sh
         AttributeError: module 'blog.views' has no attribute 'post_list'
    ```
-   
 
+   <h3> Vistas en Django</h3>
 
+   - Una View es un lugar donde ponemos la "lógica" de nuestra aplicación. Pedirá información del modelo que has creado antes y se la pasará a la plantilla. Para ello modificaremos en blog/views.py su contenido:
+   ```sh
+       from django.shortcuts import render
+
+       # Create your views here.
+       def post_list(request):
+           return render(request, 'blog/post_list.html', {})
+   ```
+
+   - Esto nos mostrara:
+   <img src="https://i.ibb.co/YRG9TFd/image.png">
 
 
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
