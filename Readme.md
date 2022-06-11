@@ -346,7 +346,16 @@
    - Mostrandose los siguiente:
    <img src="https://i.ibb.co/8NrpZqP/image.png">
 
+   <h3>Subiendo cambios a pythonanywhere</h3>  
 
+   - Para poder visualizar online tendremos que realizar un pull simple desde el bash de pythonanywhere (todo lo anterior debio haberse subido al repositorio GitHub correspondiente con push)
+   ```sh
+      $ cd ~/<NombreDelDominio-O-elNombreDeUsuario>.pythonanywhere.com
+      $ git pull
+   ```
+
+   - Finalmente, ve a la página "Web" y pulsa Reload en tu aplicación web.
+   <img src="https://i.ibb.co/Jyfjr32/image.png">
 
 
 
