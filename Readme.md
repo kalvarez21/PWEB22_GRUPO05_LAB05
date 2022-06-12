@@ -456,8 +456,57 @@
    - Se obtiene el resultado siguiente:
    <img src="https://i.ibb.co/T4sfSfj/image.png">
 
+   <h3>EXTENDIENDO PLANTILLAS</h3>
 
-   
+   - A fin de poder reutilizar codigo en HTML crearemos una plantilla base, para ello en el mismo directorio de post_list.html crearemos el archivo base.html que contendra el siguiente codigo:
+   ```sh
+       {% load static %}
+       <html>
+           <head>
+               <title>Blog Personal</title>
+               <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+               <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+               <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+               <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+               <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+           </head>
+           <body>
+             <div class="page-header">
+               <h1><a href="/">Django Girls Blog</a></h1>
+             </div>
+             <div class="content container">
+                 <div class="row">
+                     <div class="col-md-8">
+                     {% block content %}
+                     {% endblock %}
+                     </div>
+                 </div>
+             </div>
+           </body>
+       </html>
+   ```
+   - Como se puede ver es parecido al contenido de post_list.html, sin embargo la parte del bucle ha sido reemplazada por block content.
+
+   - Luego haremos cambios en post_list.html, ya que sera construida con la plantilla base con la diferencia que esta pagina debe mostrar los posts creados:
+   ```sh
+     {% extends 'blog/base.html' %}
+
+     {% block content %}
+         {% for post in posts %}
+             <div class="post">
+                 <div class="date">
+                     {{ post.published_date }}
+                 </div>
+                 <h2><a href="">{{ post.title }}</a></h2>
+                 <p>{{ post.text|linebreaksbr }}</p>
+             </div>
+         {% endfor %}
+     {% endblock %}
+   ```
+
+   - Como se puede observar la primera linea conecta la pagina web con la plantilla base de tal forma que el contenido dentro de content block sera reemplazado con todo lo escrito dentro del content block de post_list.html. Si se realizo correctamente los pasos no deberia haber cambio alguno en el resultado final de la pagina web.
+
+
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
 
    - ¿Cuál es un estándar de codificación para Python? Ejemplo: Para PHP en el proyecto Pear https://pear.php.net/manual/en/standards.php
