@@ -400,9 +400,64 @@
    - Corremos el servidor y nos deberia mostrar:
    <img src="https://i.ibb.co/LPwMmv5/image.png">
 
+   <h3>Archivo CSS</h3>
+
+   - Se crea el archivo blog.css tomando en cuenta la ruta siguiente:
+   ```sh
+       djangogirls
+        └─── blog
+             └─── static
+                  └─── css
+                       └─── blog.css
+   ```
+
+   - Luego añadimos en blog.css los estilos que queramos hacer a la pagina web. Asi mismo, en el archivo post_list.html tendremos vincular con el archivo css, para ello reemplazaremos la parte de head todo el siguiente codigo.
+   ```sh
+       {% load static %}
+       <html>
+           <head>
+               <title>Blog Personal</title>
+               <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+               <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+               <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+               <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+               <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+           </head>
+   ```
+
+   - La primera Linea servira para cargar archivos estaticos (donde se ubica el css), ademas con las lineas 7 y 8 instalamos bootstrap para dar la caracteristica de responsive.
+   Por ultimo la linea 9 vincula el CSS al archivo HTML, mostrando asi los cambios de estilos. NOTA: Las lineas 5 y 6 permiten usar fuentes de texto externas para algunos textos del HTML.
+
+   - Asi mismo, tendremos que darle nombre de clases a las etiquetas de body para poder aplicar mas facilmente los estilos del css:
+
+   ```sh
+         <body>
+             <div class="page-header">
+                 <h1><a href="/">Blog Personal</a></h1>
+             </div>
+             <div class="content container">
+                 <div class="row">
+                     <div class="col-md-8">
+                         {% for post in posts %}
+                             <div class="post">
+                                 <div class="date">
+                                     <p>publicado: {{ post.published_date }}</p>
+                                 </div>
+                                 <h2><a href="">{{ post.title }}</a></h2>
+                                 <p>{{ post.text|linebreaksbr }}</p>
+                             </div>
+                         {% endfor %}
+                     </div>
+                 </div>
+             </div>
+         </body>
+   ```
+
+   - Se obtiene el resultado siguiente:
+   <img src="https://i.ibb.co/T4sfSfj/image.png">
 
 
-
+   
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
 
    - ¿Cuál es un estándar de codificación para Python? Ejemplo: Para PHP en el proyecto Pear https://pear.php.net/manual/en/standards.php
