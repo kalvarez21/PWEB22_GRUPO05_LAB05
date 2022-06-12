@@ -266,7 +266,7 @@
 
    - Ahora la pagina antes creada estara en internet, la URL tendra la forma http://(UsuarioDeTuCuenta).pythonanywhere.com/, ejm: http://kalvarez.pythonanywhere.com/ . Ademas si se desea activar a la ventana de logueo solo basta agregar al link la palabra admin.
 
-   <h3> URLs en Django</h3>
+   <h3> URLs EN Django</h3>
 
    - Ahora empezaremos a redireccionar a la pagina que queremos que se muestre cuando se ingrese a http://127.0.0.1:8000/, para ello configuraremos en mysite/urls.py el contenido:
    ```sh
@@ -294,7 +294,7 @@
         AttributeError: module 'blog.views' has no attribute 'post_list'
    ```
 
-   <h3> Vistas en Django</h3>
+   <h3>VISTAS(VIEWS) EN Django</h3>
 
    - Una View es un lugar donde ponemos la "lógica" de nuestra aplicación. Pedirá información del modelo que has creado antes y se la pasará a la plantilla. Para ello modificaremos en blog/views.py su contenido:
    ```sh
@@ -308,7 +308,7 @@
    - Esto nos mostrara:
    <img src="https://i.ibb.co/YRG9TFd/image.png">
 
-   <h3>Pagina HTML</h3>
+   <h3>PAGINA HTML</h3>
 
    - Para evitar los errores obtenidos crearemos la pagina web que se mostrara. Es asi que tendremos que crear un archivo post_list.html dentro del siguiente arbol de directorios:
    ```sh
@@ -346,7 +346,7 @@
    - Mostrandose los siguiente:
    <img src="https://i.ibb.co/8NrpZqP/image.png">
 
-   <h3>Subiendo cambios a pythonanywhere</h3>  
+   <h3>SUBIENDO CAMBIOS A PYTHONANYWHERE</h3>  
 
    - Para poder visualizar online tendremos que realizar un pull simple desde el bash de pythonanywhere (todo lo anterior debio haberse subido al repositorio GitHub correspondiente con push)
    ```sh
@@ -357,7 +357,7 @@
    - Finalmente, ve a la página "Web" y pulsa Reload en tu aplicación web.
    <img src="https://i.ibb.co/Jyfjr32/image.png">
 
-   <h3>Datos Dinamicos en Plantilla</h3>
+   <h3>DATOS DINAMICOS EN PLANTILLA</h3>
 
    - Para poder mostrar los post(modelos) tenemos que extraerlos primero para luego pasarlos por una plantilla, para ello modificaremos en blog/view.py .  
    ```sh
@@ -373,7 +373,32 @@
 
    - Con esto primero almacenaremos en la variable post el QuestSet de los posts que deseamos obtener bajo ciertos filtros y orden, para luego ser devueltos a post_list.html y que este archivo pueda manejar esta informacion.
 
+   <h3>PLANTILLAS DE Django</h3>
 
+   - En HTML es posible realizar operaciones de python como bucles para poder visualizar los posts que enviamos a post_list.html en la anterior seccion. Para ello modificamos el contenido de post_list.html :
+   ```sh
+       <html>
+           <head>
+               <title>Blog Personal</title>
+           </head>
+           <body>
+               <div>
+                   <h1><a href="/">Blog Personal</a></h1>
+               </div>
+
+               {% for post in posts %}
+                   <div>
+                       <p> publicado: {{ post.published_date }}</p>
+                       <h2><a href="">{{ post.title }}</a></h2>
+                       <p>{{ post.text|linebreaksbr }}</p>
+                   </div>
+               {% endfor %}
+           </body>
+       </html>
+   ```
+
+   - Corremos el servidor y nos deberia mostrar:
+   <img src="https://i.ibb.co/LPwMmv5/image.png">
 
 
 
