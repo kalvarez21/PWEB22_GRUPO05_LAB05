@@ -357,6 +357,25 @@
    - Finalmente, ve a la página "Web" y pulsa Reload en tu aplicación web.
    <img src="https://i.ibb.co/Jyfjr32/image.png">
 
+   <h3>Datos Dinamicos en Plantilla</h3>
+
+   - Para poder mostrar los post(modelos) tenemos que extraerlos primero para luego pasarlos por una plantilla, para ello modificaremos en blog/view.py .  
+   ```sh
+       from django.shortcuts import render
+       from django.utils import timezone
+       from .models import Post
+
+       # Create your views here.
+       def post_list(request):
+           posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+           return render(request, 'blog/post_list.html', {'posts': posts})
+   ```
+
+   - Con esto primero almacenaremos en la variable post el QuestSet de los posts que deseamos obtener bajo ciertos filtros y orden, para luego ser devueltos a post_list.html y que este archivo pueda manejar esta informacion.
+
+
+
+
 
 
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
