@@ -506,6 +506,67 @@
 
    - Como se puede observar la primera linea conecta la pagina web con la plantilla base de tal forma que el contenido dentro de content block sera reemplazado con todo lo escrito dentro del content block de post_list.html. Si se realizo correctamente los pasos no deberia haber cambio alguno en el resultado final de la pagina web.
 
+   <h3>PLANTILLA: VISOR DE POSTS</h3>
+
+   - Para poder agregar mayor interactividad a la pagina, es posible hacer que al presionar cada titulo de post nos envie a una pagina donde solo se pueda ver ese post elegido. Para ello primero añadiremos una url en el archivo blog/urls.py de tal forma que quede asi:
+   ```sh
+    from django.urls import path
+    from . import views
+
+    urlpatterns = [
+      path('', views.post_list, name='post_list'),
+      path('post/<int:pk>/', views.post_detail, name='post_detail'),
+    ]
+   ```
+
+   - Luego tendremos que modificar el archivo blog/views.py de tal forma que podemos enviar una respuesta a la solicitud enviada en la linea 6 del codigo de arriba. De tal forma que la nueva funcion se debe añadir al final del archivo tal que asi:
+   ```sh
+     def post_detail(request, pk):
+       post = get_object_or_404(Post, pk=pk)
+       return render(request, 'blog/post_detail.html', {'post': post})
+   ```
+   - NOTA: Como se puede observar esta funcion necesita de un argumento pk el cual no lo tiene nuestro modelo Post, asi que Django se encargara de generar ese numero para la vista que se requiera.
+
+   - Luego se modificara el archivo post_list.html de tal forma que cada titulo del post tenga su propio link de vista:
+   ```sh
+       {% extends 'blog/base.html' %}
+
+       {% block content %}
+           {% for post in posts %}
+               <div class="post">
+                   <div class="date">
+                       {{ post.published_date }}
+                   </div>
+                   <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+                   <p>{{ post.text|linebreaksbr }}</p>
+               </div>
+           {% endfor %}
+       {% endblock %}
+   ```
+
+   - Por ultimo se creara la plantilla para la vista de cada post, para ello en el mismo directorio de post_list.html se crea el archivo post_detail.html con el siguiente contenido:
+   ```sh
+        {% extends 'blog/base.html' %}
+
+        {% block content %}
+        <div class="post">
+            {% if post.published_date %}
+                <div class="date">
+                    {{ post.published_date }}
+                </div>
+            {% endif %}
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.text|linebreaksbr }}</p>
+        </div>
+        {% endblock %}
+   ```
+
+   - Si todos los pasos se hicieron correctamente, ud podria visualizar cada uno de los posts. Ejemplo: En la imagen siguiente se puede observar unicamente el primer post:
+   <img src="https://i.ibb.co/n3xX8bJ/image.png">
+
+   
+
+
 
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
 
