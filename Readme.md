@@ -519,8 +519,13 @@
     ]
    ```
 
-   - Luego tendremos que modificar el archivo blog/views.py de tal forma que podemos enviar una respuesta a la solicitud enviada en la linea 6 del codigo de arriba. De tal forma que la nueva funcion se debe añadir al final del archivo tal que asi:
+   - Luego tendremos que modificar el archivo blog/views.py de tal forma que podemos enviar una respuesta a la solicitud enviada en la linea 6 del codigo de arriba. De tal forma que la nueva funcion se debe añadir al final del archivo tal que asi(no olvidar importar redirect):
    ```sh
+     from django.utils import timezone
+     from django.shortcuts import render, get_object_or_404, redirect
+     from .models import Post
+     from .forms import PostForm
+     ...
      def post_detail(request, pk):
        post = get_object_or_404(Post, pk=pk)
        return render(request, 'blog/post_detail.html', {'post': post})
@@ -563,10 +568,169 @@
 
    - Si todos los pasos se hicieron correctamente, ud podria visualizar cada uno de los posts. Ejemplo: En la imagen siguiente se puede observar unicamente el primer post:
    <img src="https://i.ibb.co/n3xX8bJ/image.png">
-
    
+   <h3>FORMULARIOS DJANGO</h3>
 
+   - Primero crearemos la plantilla para formularios. Entonces crearemos nuestra clase PostForm en el archivo blog/forms.py:
+   ```sh
+  from django import forms
 
+  from .models import Post
+
+  class PostForm(forms.ModelForm):
+
+      class Meta:
+          model = Post
+          fields = ('title', 'text',)
+   ```
+   
+   - Luego añadiremos dos URLS: Una para mostrarnos un formulario vacio en el caso de crear un post nuevo y otro formulario lleno con la informacion del post(titulo y texto) en caso de editar se requiera. Para ello modificamos blog/urls.py:
+   ```sh
+  from django.urls import path
+  from . import views
+
+  urlpatterns = [
+      path('', views.post_list, name='post_list'),
+      path('post/<int:pk>/', views.post_detail, name='post_detail'),
+      path('post/new/', views.post_new, name='post_new'),
+      path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
+  ]
+   ```
+
+   - Despues, necesitaremos crear los views que serviran para crear y editar posts. Asi que modificamos el archivo blog/views.py de tal forma que quede asi:
+   ```sh
+  from django.utils import timezone
+  from django.shortcuts import render, get_object_or_404, redirect
+  from .models import Post
+  from .forms import PostForm
+
+  # Create your views here.
+  def post_list(request):
+      posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+      return render(request, 'blog/post_list.html', {'posts': posts})
+
+  def post_detail(request, pk):
+      post = get_object_or_404(Post, pk=pk)
+      return render(request, 'blog/post_detail.html', {'post': post})
+
+  def post_new(request):
+      if request.method == "POST":
+          form = PostForm(request.POST)
+          if form.is_valid():
+              post = form.save(commit=False)
+              post.author = request.user
+              post.published_date = timezone.now()
+              post.save()
+              return redirect('post_detail', pk=post.pk)
+      else:
+          form = PostForm()
+      return render(request, 'blog/post_edit.html', {'form': form})
+
+  def post_edit(request, pk):
+      post = get_object_or_404(Post, pk=pk)
+      if request.method == "POST":
+          form = PostForm(request.POST, instance=post)
+          if form.is_valid():
+              post = form.save(commit=False)
+              post.author = request.user
+              post.published_date = timezone.now()
+              post.save()
+              return redirect('post_detail', pk=post.pk)
+      else:
+          form = PostForm(instance=post)
+      return render(request, 'blog/post_edit.html', {'form': form})
+   ```
+   - Ahora modificaremos plantillas para tener boton para crear un post y modificar un post.
+   - Crear Post: Añadiremos un boton que nos permitira ingresar al formulario para crear un post. Para ello modificaremos base.html de tal forma que quede:
+   ```sh
+    {% load static %}
+    <html>
+        <head>
+            <title>Blog Personal</title>
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+            <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+            <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        </head>
+        <body>
+            <div class="page-header">
+                <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+                <h1><a href="/">Django Girls Blog</a></h1>
+            </div>
+            <div class="content container">
+                <div class="row">
+                    <div class="col-md-8">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+   ```
+   
+   - Editar Post: Añadiremos un boton de modificar en post_detail.html de tal forma:
+  ```sh
+  {% extends 'blog/base.html' %}
+
+  {% block content %}
+      <div class="post">
+          {% if post.published_date %}
+              <div class="date">
+                  {{ post.published_date }}
+              </div>
+          {% endif %}
+          <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+          <h2>{{ post.title }}</h2>
+          <p>{{ post.text|linebreaksbr }}</p>
+      </div>
+  {% endblock %}
+   ```
+
+   - Ahora que tenemos nuestros botones necesitamos agregar una pagina web que muestre el formulario tanto para crear como para editar un post. Asi que en el mismo directorio de base.html crearemos el archivo post_edit.html con el siguiente contenido:
+   ```sh
+  {% extends 'blog/base.html' %}
+
+  {% block content %}
+      <h2>New post</h2>
+      <form method="POST" class="post-form">{% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="save btn btn-default">Save</button>
+      </form>
+  {% endblock %}
+   ```
+   
+   -  Despues de todos los pasos deberia mostrarse lo siguiente:
+   -  Boton Cruz para creacion de Post
+   <img src="https://i.ibb.co/XVF60PJ/image.png">
+   -  Boton con lapiz para editar post
+   <img src="https://i.ibb.co/NsyXv2w/image.png">
+   -  Pagina con formulario para editar o crear Post
+   <img src="https://i.ibb.co/RQjyfz9/image.png">
+   
+   <h3>SEGURIDAD</h3>
+   
+   - Hasta el momento cualquier usuario podia crear o modificar un post, pero podemos agregar ciertos limites para que solo el administrador de la pagina tenga la posibilidad de hacerlo.
+    
+   - Para ello modificaremos en base.html de la siguiente forma:
+   ```sh
+  {% if user.is_authenticated %}
+      <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+  {% endif %}
+   ```
+   
+   - Tambien post_detail.html:
+   ```sh
+  {% if user.is_authenticated %}
+      <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+  {% endif %}
+   ```
+   - Con estas modificaciones solo se mostraran los botones de agregar y editar cuando en el administrador de la aplicacion se loguee el superusuario
+   
+   <h3>VIDEO TUTORIAL OPERACIONES CRUD</h3>
+   
+   - URL de Video explicando las funcionalidades de la aplicacion Web: https://drive.google.com/file/d/1Y4dqLSwX8B3r-JWo803Lxu7VVu_GfpTo/view?usp=sharing 
+   
 
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
 
