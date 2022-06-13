@@ -735,14 +735,31 @@
    <h2>II. SOLUCION DE CUESTIONARIO</h2>
 
    - ¿Cuál es un estándar de codificación para Python? Ejemplo: Para PHP en el proyecto Pear https://pear.php.net/manual/en/standards.php
+     - AutoPEP8 una guía de estilo de código compilada por la comunidad de Python para el lenguaje Python. La unificación del estilo de codificación mejora la legibilidad del código y reduce el costo del desarrollo del equipo. Esta guia muestra topicos como:
+      - Convención de nomenclatura
+      - Diseño de código
+      - Estilo de importación
+      - Comentarios
+      - Cadena de documentación
+      - Sugerencias de codificación
+      - Uso de AutoPEP8
+
    - ¿Qué diferencias existen entre EasyInstall, pip, y PyPM?
+    - Entre EasyInstall y pip, pip presenta la funcionalidad de desintalar a diferencia de EasyInstal sin embargo EasyInstall es capaz de usar Scripts durante la instalacion de paquetes, algo que pip no es capaz de hacer.
+    - Entre pip y PYPM, PyPM es el administrador de todos los paquetes de donde extrae pip para sus instalaciones.
+
+
    - En un proyecto Django que se debe ignorar para usar git. Vea: https://github.com/django/django/blob/main/.gitignore. ¿Qué otros tipos de archivos se deberían agregar a este archivo?
+    -   
+
    - Utilice python manage.py shell para agregar objetos. ¿Qué archivos se modificaron al agregar más objetos?
+    - No modifican ningun archivo salvo la base de datos db.sqlite3 debido al agregado de nuevos objetos.
 
 
    <h2>III. CONCLUSIONES</h2>
-
-
+   - Django es un framework web de alto nivel que fomenta el desarrollo rápido y el diseño limpio y pragmático.
+   - Ofrece un gran rendimiento y flexibilidad, pudiendo escalar proyectos de forma sencilla. Trabajar bajo un patrón MVC (Modelo Vista Controlador), lo que permite un desarrollo ágil y reutilizable
+   - Se puede pasar desde muy poco a una aplicación enorme perfectamente, una aplicación que sea modular, que funcione rápido y sea estable. 
    <h1>RETROALIMENTACION GENERAL</h1>
 
 
